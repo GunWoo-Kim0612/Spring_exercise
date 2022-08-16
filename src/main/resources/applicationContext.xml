@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+	
+	
+	<!-- ?? 하위경로 뭐시기 -->
+ 	<context:component-scan base-package="com.springbook.biz"></context:component-scan> 
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- IOC START -->
+<!--   	@Setter(onMethod=@__({@Autowired})) 를 사용해 자동주입을 합시다
+ 	@Setter만 사용했을 경우는 자동주입이 되지않아 아래와 같이 빈등록이 필요
+ 
+ -->	
+	<!-- <bean id="userService" class="com.springbook.biz.loginservice.user.impl.UserServiceimpl">
+		<property name="userDAO" ref="userDAO"></property>
+
+	</bean>
+	
+	<bean id="userDAO" class="com.springbook.biz.loginservice.user.impl.UserDAO">
+	</bean>
+	 -->
+<!-- IOC END -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+<!--AOP START  -->
+	
+	
+	<!-- <bean id="log" class="com.springbook.biz.common.LogAdvice"></bean> -->	
+	<!-- <bean id="before" class="com.springbook.biz.common.BeforeAdvice"></bean>
+	<bean id="afterThrowing" class="com.springbook.biz.common.AfterThrowingAdvice"></bean>
+	<bean id="finalLog" class="com.springbook.biz.common.AfterAdive"></bean>
+	<bean id="after-returning" class="com.springbook.biz.common.AfterReturningAdvice"></bean>
+	<bean id="around" class="com.springbook.biz.common.AroundAdvice"></bean> -->
+	
+	
+	
+	
+	<!-- before -->
+	<!-- <aop:config>
+		<aop:pointcut expression="execution(* com.springbook.biz..*impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="before">
+			<aop:before method="beforeLog" pointcut-ref="allPointcut"/>
+		</aop:aspect>
+	</aop:config> -->
+
+	
+	
+	
+	<!-- after-throwing -->
+	<!-- <aop:config>
+		<aop:pointcut expression="execution(* com.springbook.biz..*impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="afterThrowing">
+			<aop:after-throwing  method="exceptionLog" pointcut-ref="allPointcut"/>
+		</aop:aspect>
+	</aop:config> -->
+	
+	
+	
+
+
+												<!-- 주석 -->
+				<!-- after-returning-->
+				<!-- 매개변수 JoinPoint jp, Object returnObj  지정했을 경우    속성값 returning추가   
+				<aop:after-returning  method="afterLog" pointcut-ref="getPointcut" returning="returnObj"/>-->
+												<!-- 주석 -->
+		
+	
+	<!-- after returning -->
+	<!-- <aop:config>
+		<aop:pointcut expression="execution(* com.springbook.biz..*impl.get*(..))" id="getPointcut"/>
+		<aop:aspect ref="after-returning">
+			<aop:after-returning  method="afterLog" pointcut-ref="getPointcut" returning="returnObj"/>
+		</aop:aspect>
+	</aop:config>-->
+ 
+
+
+
+	
+	
+	<!-- after -->
+	<!-- <aop:config>
+		<aop:pointcut expression="execution(* com.springbook.biz..*impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="finalLog">
+			<aop:after  method="finallyLog" pointcut-ref="allPointcut"/>
+		</aop:aspect>
+	</aop:config> -->
+	
+	
+	<!-- around -->
+	<!-- <aop:config>
+		<aop:pointcut expression="execution(* com.springbook.biz..*impl.*(..))" id="allPointcut"/>
+		<aop:aspect ref="around">
+			<aop:around  method="aroundLog" pointcut-ref="allPointcut"/>
+		</aop:aspect>
+	</aop:config> -->
+	
+<!--AOP END -->
+	
+	
+	
+	
+	
+	
+<!-- AOP 어노테이션 방식 -->
+	
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy> 
+	
+<!-- AOP 어노테이션 방식 END -->
+
+
+<!-- Spring JDBC START -->	
+
+	<context:property-placeholder location="classpath:config/database.properties"/>
+	
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}"></property>
+		<property name="username" value="${jdbc.username}"></property>
+		<property name="password" value="${jdbc.userpassword}"></property>
+	</bean>
+
+<!-- Spring JDBC END-->	
+	
+<!-- Jdbc Template -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>		
+	</bean>
+	
+	
+	
+	
+	
+		
+<!-- Transaction START-->
+		<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property name="dataSource" ref="dataSource"></property>
+		</bean>
+		
+		
+		
+		<tx:advice id="txAdvice" transaction-manager="txManager">
+			<tx:attributes>
+				<tx:method name="get*" read-only="true"/>
+				<tx:method name="*"/>
+			</tx:attributes>
+		</tx:advice>
+		
+		
+		<!-- 트랜잭션에 해당하는 AOP -->
+		<aop:config>
+			<aop:pointcut expression="execution(* com.springbook.biz..*(..))" id="txPointcut"/>
+			<aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut"/>
+		</aop:config>
+		
+	<!-- 각 메소드에 트랜잭션이 적용되었다 -->
+<!-- Transaction END-->
+	
+	
+	
+	
+	
+	
+<!-- 
+	<bean id="sony"	 class="polymorphism.SonySpeaker"></bean>
+
+	<context:component-scan base-package="polymorphism"></context:component-scan>
+ -->
+
+	<!-- <bean id="samsung" class="polymorphism.SamsungTV" > 
+		<constructor-arg ref="apple"></constructor-arg> 
+		<constructor-arg value="270000"></constructor-arg> 
+		<property name="speaker" ref="apple"></property>
+		<property name="price" value="270000"></property>
+	</bean>
+	
+	<bean id="sony"	class="polymorphism.SonySpeaker"></bean>
+	<bean id="apple" class="polymorphism.AppleSpeaker"></bean>
+	
+	<bean id="collectionBean" class="com.springbook.ioc.injection.CollectionBean">
+		 <property name="addressList">
+		 <list>
+			<value>서울시 강남구</value>
+			<value>서울시 영등포구</value>
+		</list>
+		 </property>
+			 
+		<property name="addressSet">
+			<set value-type="java.lang.String">
+				<value>서울시 강남구</value>
+				<value>서울시 강남구</value>
+				<value>서울시 서초구</value>
+				<value>서울시 마포구</value>
+			</set>
+		</property> 
+		<property name="addressMap">
+			<map value-type="java.lang.String">
+				<entry>
+					<key><value>홍길동</value></key>
+					<value>서울시 영등포구</value>
+				</entry>
+				<entry>
+					<key><value>고길동</value></key>
+					<value>서울시 강남구</value>
+				</entry>
+			</map>
+		</property>
+		<property name="addressProps">
+		<props>
+			<prop key="김길동">서울시 강남구</prop>
+			<prop key="이길동">서울시 강남구</prop>
+		</props>
+		
+		</property>
+			
+	</bean> -->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</beans>
