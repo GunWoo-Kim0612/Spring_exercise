@@ -1,4 +1,4 @@
-<%@page import="javax.websocket.Session"%>
+
 <%@page import="java.util.List"%>
 <%@page import="com.springbook.biz.board.impl.BoardDAO"%>
 <%@page import="com.springbook.biz.board.BoardVO"%>
