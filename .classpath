@@ -30,7 +30,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/app/gwk06/product/11.2.0/dbhome_1/jdbc/lib/ojdbc6.jar">
+	<classpathentry kind="lib" path="C:/Users/sentr/OneDrive/문서/카카오톡 받은 파일/lib/ojdbc6.jar">
 		<attributes>
 			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
 		</attributes>
