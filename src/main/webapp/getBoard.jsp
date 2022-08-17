@@ -2,12 +2,14 @@
     pageEncoding="UTF-8"%>
 <%@page import="com.springbook.biz.board.impl.BoardDAO" %>
 <%@page import="com.springbook.biz.board.BoardVO" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<%
+
+<%-- <%
    //DispatcherServlet에서 온 값 선언
-   BoardVO board = (BoardVO)session.getAttribute("board");
+   BoardVO board = (BoardVO)session.getAttribute("getBoard");
    
-%>
+%> --%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,26 +22,27 @@
       <a href="logout.do">Log-out</a>
       <hr>
       <form action="updateBoard.do" method="post">
-         <input name="seq" type="hidden" value="<%=board.getSeq()%>">
+         <%-- <input name="seq" type="hidden" value="<%=board.getSeq()%>"> --%>
+         <input name="seq" type="hidden" value="${board.seq }">
          <table border="1" cellpadding="0" cellspacing="0">
             <tr>
                <td bgcolor="orange" width="70">제목</td>
                <td align="left">
-                  <input name="title" type="text" value="<%=board.getTitle()%>">
+                  <input name="title" type="text" value="${board.title }">
                </td>
             </tr>
             
             <tr>
                <td bgcolor="orange">작성자</td>
                <td align="left">
-                  <%= board.getWriter() %>
+                  ${board.writer }
                </td>
             </tr>
             
             <tr>
                <td bgcolor="orange">내용</td>
                <td align="center">
-                  <textarea name="content" rows="10" cols="40"><%= board.getContent() %>
+                  <textarea name="content" rows="10" cols="40">${board.content}
                   </textarea>
                </td>
             </tr>
@@ -47,14 +50,14 @@
             <tr>
                <td bgcolor="orange">등록일</td>
                <td align="left">
-                  <%= board.getRegDate() %>
+                  ${board.regDate }
                </td>
             </tr>
             
             <tr>
                <td bgcolor="orange">조회수</td>
                <td align="left">
-                  <%= board.getCnt() %>
+                 ${board.cnt }
                </td>
             </tr>
             
@@ -65,8 +68,8 @@
             </tr>
          </table>
          <hr>
-         <a href="insertBoard.do">글 등록</a>&nbsp;&nbsp;&nbsp;
-         <a href="deleteBoard.do?seq=<%=board.getSeq()%>">글 삭제</a>&nbsp;&nbsp;&nbsp;
+         <a href="insertBoard.jsp">글 등록</a>&nbsp;&nbsp;&nbsp;
+         <a href="deleteBoard.do?seq=${board.seq }">글 삭제</a>&nbsp;&nbsp;&nbsp;
          <a href="getBoardList.do">글 목록</a>
       </form>
    </center>
