@@ -27,7 +27,8 @@
 				<tr>
 					<td bgcolor="orange" >작성자</td>
 					<td align="left">
-						<input name="writer" type="text" ">
+						${userName }
+						<input name="writer" type="hidden" value="${userName }">
 					</td>
 					
 				</tr>

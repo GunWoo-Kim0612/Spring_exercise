@@ -27,9 +27,12 @@ public class BoardDAO {
 	private final String BOARD_GET = "SELECT *FROM board2 WHERE seq=?";
 	private final String BOARD_LIST = "SELECT * FROM board2 ORDER BY seq DESC";
 	private final String BOARD_CNT = "UPDATE board2 SET cnt = cnt+1 WHERE seq = ?";
+	private final String BOARD_SEARCH = "SELECT * FROM board2 WHERE title=?";
 	
-	
-	
+	public void searchTitle(BoardVO Bvo) {
+		System.out.println("===> JDBC searchTitle() 기능처리");
+		
+	}
 	
 	
 	

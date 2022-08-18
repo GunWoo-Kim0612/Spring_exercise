@@ -33,10 +33,11 @@
    <center>
       <h1>글 목록</h1>
       <h3>
-         테스트 환영합니다.<a href="logout.do">Log-out</a>
+      <!-- sesstion.getattri~~ 로받아올수있지만 el로 간략하게 속성이름을 영역객체에서 찾아 사용 -->
+         ${userName } 환영합니다.<a href="logout.do">Log-out</a>
       </h3>
-      
-      <form action="getBoardList.jsp" method="post">
+      <!--검색시 해당 글만 불러와야함 .jsp ==> .do변경 , post에 해당하는 컨트롤 새로 메소드만들어주?	-->
+      <form action="getBoardList.do" method="post">
          <table border="1" cellpadding="0" cellspacing="0" width="700">
             <tr>
                <td align="right">
