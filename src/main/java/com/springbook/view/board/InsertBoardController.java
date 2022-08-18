@@ -24,29 +24,35 @@ import com.springbook.biz.board.impl.BoardDAO;
 public class InsertBoardController{
 	
 	@RequestMapping("/insertBoard.do")
-	public void insertBoard(HttpServletRequest request) {
-		System.out.println("글 추가");
+	public String insertBoard(BoardVO vo, BoardDAO boardDAO) {
+		System.out.println("insert 컨트롤러");
 		
-		String title = request.getParameter("title");
-		String content = request.getParameter("content");
-		String writer = request.getParameter("writer");
+//		String title = request.getParameter("title");
+//		String content = request.getParameter("content");
+//		String writer = request.getParameter("writer");
+//		
+		System.out.println(vo.getTitle());
+		System.out.println(vo.getContent());
+		System.out.println(vo.getWriter());
+//		
+//		
+//		
+//		BoardVO vo = new BoardVO();
+//		
+//		BoardDAO boardDAO = new BoardDAO();
+//		
+//		vo.setContent(content);
+//		vo.setTitle(title);
+//		vo.setWriter(writer);
+	
+		//메소드에 vo 객체를 매개함으로써... 해당 동작들이 Command객체로 인해 자동 Set됨   
+		//코드만 봐서는 어떤값을 insert하는지 알수없다   command객체 개념을 제대로 숙지해야함
 		
-		System.out.println(title);
-		System.out.println(content);
-		System.out.println(writer);
-		
-		
-		
-		BoardVO vo = new BoardVO();
-		
-		BoardDAO boardDAO = new BoardDAO();
-		
-		vo.setContent(content);
-		vo.setTitle(title);
-		vo.setWriter(writer);
-		
+		//외부에서 getPara  값을 받아  set하는 과정이 일괄적으로 처리됨  파라미터명은  vo객체에 Setter메소드를 통하므로  파라미터와  객체의 변수 이름이 일치해야 한다
 		
 		boardDAO.insertBoard(vo);
+		
+		return "redirect:getBoardList.do"; 		//이동하는 방식은 포워드방식
 	}
 	
 	
@@ -85,4 +91,6 @@ public class InsertBoardController{
 //		
 //		return "getBoardList.do";
 //	}
+	
+
 }
