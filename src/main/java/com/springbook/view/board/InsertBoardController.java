@@ -26,14 +26,7 @@ public class InsertBoardController{
 	@RequestMapping("/insertBoard.do")
 	public String insertBoard(BoardVO vo, BoardDAO boardDAO) {
 		System.out.println("insert 컨트롤러");
-		
-//		String title = request.getParameter("title");
-//		String content = request.getParameter("content");
-//		String writer = request.getParameter("writer");
-//		
-		System.out.println(vo.getTitle());
-		System.out.println(vo.getContent());
-		System.out.println(vo.getWriter());
+
 //		
 //		
 //		
