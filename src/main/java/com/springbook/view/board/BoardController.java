@@ -1,15 +1,21 @@
 package com.springbook.view.board;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springbook.biz.board.BoardVO;
 import com.springbook.biz.board.impl.BoardDAO;
 
 @Controller
+@SessionAttributes("board")		
 public class BoardController {
 		
 	
@@ -42,12 +48,38 @@ public class BoardController {
 	
 	
 	
+	
+	
+	
+	
+	@ModelAttribute("conditionMap")
+	public Map<String, String> searchConditionMap(){
+		Map<String, String> conditionMap = new HashMap<String, String>();
+		
+		
+		//헷갈릴 수 있으니 jsp searchCondition의 option value 대문자로 변경  
+		//여기 속성명도 대문자로..
+		conditionMap.put("제목", "TITLE");
+		conditionMap.put("내용", "CONTENT");
+		System.out.println("Map메소드 실행 : ");
+		System.out.println("map.values()  : " + conditionMap.values());
+		
+		return conditionMap;
+	}
+	
+	
+	
+	
+	
 	@RequestMapping("getBoardList.do")		//요청정보 맵핑
 	public ModelAndView getBoardList(BoardVO vo, BoardDAO boardDAO, ModelAndView mav) {
+//		String으로수정
 		
 		mav.addObject("boardList", boardDAO.getBoardList());
 		mav.setViewName("getBoardList.jsp");
-		 
+//		System.out.println("mav.getModelMap() : " + mav.getModelMap());
+//		System.out.println("mav.getModel() : " + mav.getModel());
+//		System.out.println("투스트링"+mav.toString());
 		return mav;
 	}
 	
@@ -90,12 +122,20 @@ public class BoardController {
 	
 	
 	@RequestMapping("/updateBoard.do")
-	public String UpdateBoardController(BoardVO vo, BoardDAO boardDAO) {
+	public String UpdateBoardController(@ModelAttribute("board")BoardVO vo, BoardDAO boardDAO) {
 		System.out.println("update 컨트롤러");
-
 		
 		System.out.println("updateBoard.do처리");
 		
+		//로그인하지않았을경우 작성자데이터는 null값이 들어가는 구조 
+		//수정하지않은 값이라도 해당게시글의 
+		//null값이 뜨던 vo객체의 정보들이   세션영역으로부터 setter주입되었다  -> 확인
+		System.out.println("세션으로부터 주입받은 seq :"+vo.getSeq());
+		System.out.println("세션으로부터 주입받은 title :"+vo.getTitle());
+		System.out.println("세션으로부터 주입받은 content :"+vo.getContent());
+		System.out.println("세션으로부터 주입받은 Writer :"+vo.getWriter());
+		System.out.println("세션으로부터 주입받은 RegDate :"+vo.getRegDate());
+		System.out.println("세션으로부터 주입받은 Cnt :"+vo.getCnt());
 		boardDAO.updateBoard(vo);
 		return "redirect:getBoardList.do";
 	}

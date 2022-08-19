@@ -42,8 +42,15 @@
             <tr>
                <td align="right">
                   <select name="searchCondition">
-                     <option value="title">제목
-                     <option value="content">내용
+                  
+                  	<!-- @ModelAttribute로 만들어준 map정보 가져오는 방식으로 수정-->
+                     <!-- <option value="TITLE">제목
+                     <option value="CONTENT">내용 -->
+                     <c:forEach items="${conditionMap }" var="option">
+                     	<option value="${option.value }"> ${option.key }
+                     	<!-- 보이는 값은 key값 -->
+                     </c:forEach>
+                     
                   </select>
                   <input name="searchKeyword" type="text" />
                   <input type="submit" value="검색">
