@@ -19,6 +19,7 @@ public class BoardServiceimpl implements BoardService {
 //	@Autowired
 //	private BoardDAO BoardDAO;
 	
+	//BoardDAO <-> BoardDAOSpring   왔다갔다 자유롭네
 	
 //	Spring JDBC방식
 	@Autowired
@@ -70,9 +71,9 @@ public class BoardServiceimpl implements BoardService {
 	}
 
 	@Override
-	public List<BoardVO> getBoardList() {
+	public List<BoardVO> getBoardList(BoardVO vo) {
 //		log.printLog();
-		return BoardDAO.getBoardList();
+		return BoardDAO.getBoardList(vo);
 	}
 
 }

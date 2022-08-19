@@ -82,8 +82,20 @@ public class BoardController {
 	public ModelAndView getBoardList(BoardVO vo, BoardDAO boardDAO, ModelAndView mav) {
 //		String으로수정
 		
+		
+		System.out.println("글목록처리");
+		
+		if(vo.getSearchCondition()==null) {
+			vo.setSearchCondition("TITLE");
+		}
+		if(vo.getSearchKeyword()==null) {
+			vo.setSearchKeyword("");
+		}
+		
+		
+		
 //		mav.addObject("boardList", boardDAO.getBoardList());
-		mav.addObject("boardList", boardService.getBoardList());
+		mav.addObject("boardList", boardService.getBoardList(vo));
 		mav.setViewName("getBoardList.jsp");
 //		System.out.println("mav.getModelMap() : " + mav.getModelMap());
 //		System.out.println("mav.getModel() : " + mav.getModel());

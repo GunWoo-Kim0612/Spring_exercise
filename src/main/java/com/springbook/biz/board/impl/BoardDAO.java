@@ -26,6 +26,10 @@ public class BoardDAO {
 	private final String BOARD_DELTE = "DELETE FROM board2 WHERE seq=?";
 	private final String BOARD_GET = "SELECT *FROM board2 WHERE seq=?";
 	private final String BOARD_LIST = "SELECT * FROM board2 ORDER BY seq DESC";
+	//제목검색
+	private final String BOARD_LIST_T = "SELECT * FROM board2 WHERE title LIKE '%'||?||'%' ORDER BY seq DESC";
+	//내용검색
+	private final String BOARD_LIST_C = "SELECT * FROM board2 WHERE content LIKE '%'||?||'%' ORDER BY seq DESC";
 	private final String BOARD_CNT = "UPDATE board2 SET cnt = cnt+1 WHERE seq = ?";
 	private final String BOARD_SEARCH = "SELECT * FROM board2 WHERE title=?";
 	
@@ -182,8 +186,8 @@ public class BoardDAO {
 	
 	
 	
-	//전체조회
-	public List<BoardVO> getBoardList() {
+	//전체조회				검색기능을 위해 매개변수 BoardVO
+	public List<BoardVO> getBoardList(BoardVO vo) {
 		
 		System.out.println("===>JDBC getBoardList() 기능처리 ");
 		
@@ -192,7 +196,17 @@ public class BoardDAO {
 		
 		try {
 			conn = JDBCUtil.getConnetion();
-			stmt = conn.prepareStatement(BOARD_LIST);
+			
+			if(vo.getSearchCondition().contentEquals("TITLE")) {
+				stmt = conn.prepareStatement(BOARD_LIST_T);
+
+			}else if(vo.getSearchCondition().contentEquals("CONTENT")) {
+				stmt = conn.prepareStatement(BOARD_LIST_C);
+			}
+			stmt.setString(1, vo.getSearchKeyword());
+			
+			//TITLE 입력이 비어있을경우 전체조회가 되므로 기존의 전체조회는 없어도됨
+//			stmt = conn.prepareStatement(BOARD_LIST);
 			rs = stmt.executeQuery();
 			
 			while(rs.next()) {
