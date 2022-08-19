@@ -28,6 +28,10 @@
 	<bean id="deleteBoard" class="com.springbook.view.board.DeleteBoardController"></bean>
 	<bean id="logoutBoard" class="com.springbook.view.board.LogoutController"></bean>
 	
+	
+	
+	 servlet-context.xml에 있는 resolver기능을 따라 만들어봄
+	
 	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/board/"></property>
 		<property name="suffix" value=".jsp"></property>

@@ -3,6 +3,7 @@ package com.springbook.view.board;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.springbook.biz.board.BoardService;
 import com.springbook.biz.board.BoardVO;
 import com.springbook.biz.board.impl.BoardDAO;
 
@@ -19,11 +21,15 @@ import com.springbook.biz.board.impl.BoardDAO;
 public class BoardController {
 		
 	
+	@Autowired
+	private BoardService boardService;
+	
 	@RequestMapping("/deleteBoard.do")
 	public String deleteBoard(BoardVO vo, BoardDAO boadrDAO) {
 		System.out.println("delete컨트롤러");
 		
-		boadrDAO.deleteBoard(vo);
+//		boadrDAO.deleteBoard(vo);
+		boardService.deleteBoard(vo);
 		
 		return "getBoardList.do";
 	}
@@ -38,7 +44,8 @@ public class BoardController {
 //		mav.setViewName("getBoard.jsp");
 
 		BoardVO Data = boardDAO.getBoard(vo);
-		model.addAttribute("board", boardDAO.getBoard(vo));
+//		model.addAttribute("board", boardDAO.getBoard(vo));
+		model.addAttribute("board", boardService.getBoard(vo));
 		System.out.println("컨트롤러 vo seq 확인  : "+vo.getSeq())	;
 		System.out.println("컨트롤러 vo content 확인  : "+Data.getContent());
 		
@@ -75,7 +82,8 @@ public class BoardController {
 	public ModelAndView getBoardList(BoardVO vo, BoardDAO boardDAO, ModelAndView mav) {
 //		String으로수정
 		
-		mav.addObject("boardList", boardDAO.getBoardList());
+//		mav.addObject("boardList", boardDAO.getBoardList());
+		mav.addObject("boardList", boardService.getBoardList());
 		mav.setViewName("getBoardList.jsp");
 //		System.out.println("mav.getModelMap() : " + mav.getModelMap());
 //		System.out.println("mav.getModel() : " + mav.getModel());
@@ -114,9 +122,10 @@ public class BoardController {
 	public String insertBoard(BoardVO vo, BoardDAO boardDAO) {
 		System.out.println("insert 컨트롤러");
 
-		boardDAO.insertBoard(vo);
+//		boardDAO.insertBoard(vo);      BoardDAO---> BoardDAOSpring으로변경
+		boardService.insertBoard(vo);
 		
-		return "redirect:getBoardList.do"; 		//이동하는 방식은 포워드방식
+		return "redirect:getBoardList.do"; 		//기본 이동하는 방식은 포워드방식 but redirect로 바꿔줬음
 	}
 	
 	
@@ -136,7 +145,9 @@ public class BoardController {
 		System.out.println("세션으로부터 주입받은 Writer :"+vo.getWriter());
 		System.out.println("세션으로부터 주입받은 RegDate :"+vo.getRegDate());
 		System.out.println("세션으로부터 주입받은 Cnt :"+vo.getCnt());
-		boardDAO.updateBoard(vo);
+		
+//		boardDAO.updateBoard(vo);
+		boardService.updateBoard(vo);
 		return "redirect:getBoardList.do";
 	}
 }
