@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardDAO">
+
+
+<resultMap type="board" id="boardResult">
+	<!-- vo객체이름, PK컬럼명   id태그 -->
+	<id property="seq" column="SEQ"/>
+	<!-- setter메소드 와 일반 컬럼명  result태근-->
+	<result property="title" column="TITLE"/>
+</resultMap>
+
+
+
+
+	<insert id="insertBoard" parameterType="board">
+		<!-- insert기능이 실행되기전에 seq라는 이름으로 동작하는것 사용시 파라미터형식 : #{seq} 오라클sql에서 만들어놓은 
+			시퀀스 사용 -->
+		<selectKey keyProperty="seq" resultType="int" order="BEFORE">
+			select board_seq.nextval as seq from dual
+		</selectKey>
+		INSERT INTO board2(seq, title, writer, content)
+		<!-- (SELECT NVL(MAX(SEQ),0) + 1 FROM board2) seq에 해당하는 부분 변경 -->
+		VALUES(#{seq}, #{title}, #{writer}, #{content})
+	</insert>
+
+	<update id="updateBoard">
+		UPDATE board2 SET title=#{title}, content=#{content}
+		WHERE seq=#{seq}
+	</update>
+
+	<delete id="deleteBoard">
+		DELETE FROM board2 WHERE seq=#{seq}
+	</delete>
+
+	<!-- <select id="getBoard" resultType="com.springbook.biz.BoardVO"> -->
+	<!-- alias로 수정함 -->
+	<select id="getBoard" resultType="board">
+		SELECT *FROM board2 WHERE seq=#{seq}
+	</select>
+
+
+<!-- resultMap에 매칭되는 정보로 변경 -->
+	<select id="getBoardList" parameterType="board" resultMap="boardResult">
+		<![CDATA[
+		SELECT * FROM board2
+		WHERE title LIKE '%'||#{searchKeyword}||'%'
+		and seq > 0
+		ORDER BY seq DESC
+		]]>
+		
+	</select>
+
+</mapper>

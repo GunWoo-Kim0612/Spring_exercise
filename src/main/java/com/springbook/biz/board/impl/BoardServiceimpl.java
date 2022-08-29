@@ -11,7 +11,7 @@ import com.springbook.biz.common.LogAdvice;
 
 
 
-@Service("BoardService")
+@Service("BoardService") 
 public class BoardServiceimpl implements BoardService {
 
 //	기존 JDBC방식
@@ -23,7 +23,9 @@ public class BoardServiceimpl implements BoardService {
 	
 //	Spring JDBC방식
 	@Autowired
-	private BoardDAOSpring BoardDAO;
+	private BoardDAOMybatis BoardDAO;
+//	private BoardDAOSpring BoardDAO;
+	
 	
 	
 	

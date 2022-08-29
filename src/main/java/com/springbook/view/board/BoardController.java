@@ -1,6 +1,9 @@
 package com.springbook.view.board;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +12,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springbook.biz.board.BoardService;
@@ -23,6 +28,29 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	
+	
+	@RequestMapping("dataTransform.do")
+	@ResponseBody			//응답객체(반환)  boardList를 json형태로 바꾸어줌
+	public List<BoardVO> dataTransformController(BoardVO vo) {
+		
+		//전체조회를위해..
+		vo.setSearchCondition("TITLE");
+		vo.setSearchKeyword("");
+		
+		//
+		List<BoardVO> boardList = boardService.getBoardList(vo);
+		
+		//json형태로 body에 표현됨 
+		return boardList;
+	}
+	
+	
+	
+	
+	
+	
 	
 	@RequestMapping("/deleteBoard.do")
 	public String deleteBoard(BoardVO vo, BoardDAO boadrDAO) {
@@ -131,12 +159,31 @@ public class BoardController {
 	
 	
 	@RequestMapping("/insertBoard.do")
-	public String insertBoard(BoardVO vo, BoardDAO boardDAO) {
+	public String insertBoardController(BoardVO vo, BoardDAO boardDAO)  {
 		System.out.println("insert 컨트롤러");
 
 //		boardDAO.insertBoard(vo);      BoardDAO---> BoardDAOSpring으로변경
-		boardService.insertBoard(vo);
 		
+		//파일업로드
+		MultipartFile uploadFile = vo.getUploadFile();
+		
+		System.out.println("업로드파일"+uploadFile);
+		if(!uploadFile.isEmpty()) {
+			String fileName = uploadFile.getOriginalFilename();
+			
+//			예외처리필요,,, 그냥 선언을해도 무방
+			try {
+				uploadFile.transferTo(new File("C://work//UpLoadTest//"+fileName));
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		boardService.insertBoard(vo);
+
 		return "redirect:getBoardList.do"; 		//기본 이동하는 방식은 포워드방식 but redirect로 바꿔줬음
 	}
 	

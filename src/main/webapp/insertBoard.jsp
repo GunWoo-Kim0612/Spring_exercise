@@ -15,7 +15,7 @@
 		<h1>글 등록</h1>
 		<a href="logout.do">log-out</a>
 		<hr>
-		<form action="insertBoard.do" method="post">
+		<form action="insertBoard.do" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>
 					<td bgcolor="orange">제목</td>
@@ -36,6 +36,13 @@
 					<td bgcolor="orange" >내용</td>
 					<td align="left">
 						<textarea cols="40" rows="10" name="content" type="text"></textarea>
+					</td>
+					
+				</tr>
+				<tr>
+					<td bgcolor="orange" width="70">업로드</td>
+					<td align="left">
+						<input name="uploadFile" type="file"></input>
 					</td>
 					
 				</tr>
