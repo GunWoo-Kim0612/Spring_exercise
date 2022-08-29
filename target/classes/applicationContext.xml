@@ -168,7 +168,17 @@
 	</bean>
 	
 	
+	<!-- sessionFactory 클래스를 사용하기위한 빈등록 -->
+	<bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- setter주입,, setter주입시 ref로 참조 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:sql-map-config.xml"></property>
+	</bean>
 	
+	<!-- sessionTemplaste 사용하기위한 빈등록 -->
+	<bean class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sessionFactory"></constructor-arg>
+	</bean>
 	
 	
 		
@@ -255,31 +265,5 @@
 			
 	</bean> -->
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 </beans>

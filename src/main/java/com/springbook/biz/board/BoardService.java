@@ -17,8 +17,8 @@ public interface BoardService {
 	public BoardVO getBoard(BoardVO Bvo);
 	
 	
-	//글 전체조회
-	public List<BoardVO> getBoardList();
+	//글 전체조회			수정 매개변수 BoardVO vo
+	public List<BoardVO> getBoardList(BoardVO Bvo);
 	
 
 

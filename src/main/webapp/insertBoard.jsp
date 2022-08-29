@@ -13,9 +13,9 @@
 <body>
 	<center>
 		<h1>글 등록</h1>
-		<a href="logout_proc.jsp">log-out</a>
+		<a href="logout.do">log-out</a>
 		<hr>
-		<form action="insertBoard.do" method="post">
+		<form action="insertBoard.do" method="post" enctype="multipart/form-data">
 			<table>
 				<tr>
 					<td bgcolor="orange">제목</td>
@@ -27,7 +27,8 @@
 				<tr>
 					<td bgcolor="orange" >작성자</td>
 					<td align="left">
-						<input name="writer" type="text" ">
+						${userName }
+						<input name="writer" type="hidden" value="${userName }">
 					</td>
 					
 				</tr>
@@ -39,13 +40,18 @@
 					
 				</tr>
 				<tr>
+					<td bgcolor="orange" width="70">업로드</td>
+					<td align="left">
+						<input name="uploadFile" type="file"></input>
+					</td>
+					
+				</tr>
+				<tr>
 					<td colspan="2" align="center"><input type="submit" value="새글등록"></td>
 				</tr>
 			</table>
 			<hr>
-			<a href="insertBoard.jsp">글등록</a>&nbsp;&nbsp;&nbsp;		
-			<a href="deleteBoard.jsp">글삭제</a>&nbsp;&nbsp;&nbsp;		
-			<a href="getBoardList.jsp">글목록</a>&nbsp;&nbsp;&nbsp;		
+			<a href="getBoardList.do">글목록</a>&nbsp;&nbsp;&nbsp;		
 		</form>
 	</center>
 </body>

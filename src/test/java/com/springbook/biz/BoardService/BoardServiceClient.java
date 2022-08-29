@@ -60,8 +60,11 @@ public class BoardServiceClient {
 			
         switch (i) {
 	        case 1:         
+	        	
+	        	
 	            System.out.println(i + "번 메뉴 getBoardList");
-	            boardList = boardSerive.getBoardList();
+//	            getBoardList 메소드 매개변수 추가함 
+//	            boardList = boardSerive.getBoardList();
 	            
 	            System.out.println();
 	            System.out.println();
